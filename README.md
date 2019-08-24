@@ -1,4 +1,4 @@
-This project allow to categorize Youtube channels.
+This project allows to categorize Youtube channels.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6f2245a6-9bb5-4098-bba1-608c9d0e2acc/deploy-status)](https://app.netlify.com/sites/youtube-ls/deploys)
 
