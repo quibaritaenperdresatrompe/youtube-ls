@@ -10,6 +10,7 @@ export default function GoogleAuthProvider({ apiKey, children, clientId, scope, 
   const [{ googleAuth, initialized }, setState] = useState({
     googleAuth: null,
     initialized: false,
+    isAuthorized: false,
   });
 
   useEffect(() => {
@@ -27,17 +28,29 @@ export default function GoogleAuthProvider({ apiKey, children, clientId, scope, 
           discoveryDocs,
         })
         .then(() => {
-          const googleAuthInstance = window.gapi.auth2.getAuthInstance();
+          const GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+          function setSigninStatus() {
+            var user = GoogleAuth.currentUser.get();
+            var isAuthorized = user.hasGrantedScopes(scope);
+
+            setState(prevState => ({
+              ...prevState,
+              isAuthorized,
+            }));
+          }
 
           // Listen for sign-in state changes.
-          googleAuthInstance.isSignedIn.listen(isSignedIn => {
-            console.log(isSignedIn);
-          });
+          GoogleAuth.isSignedIn.listen(setSigninStatus);
 
-          setState({
-            googleAuth: googleAuthInstance,
+          // Handle initial sign-in state. (Determine if user is already signed in.)
+          setSigninStatus();
+
+          setState(prevState => ({
+            ...prevState,
+            googleAuth: GoogleAuth,
             initialized: true,
-          });
+          }));
         });
     });
 

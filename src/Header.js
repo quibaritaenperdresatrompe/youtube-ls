@@ -1,13 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import useGoogleAuth from './useGoogleAuth';
+import Login from './Login';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,13 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ButtonAppBar() {
-  const { googleAuth } = useGoogleAuth();
-
   const classes = useStyles();
-
-  const onLogin = () => {
-    googleAuth.signIn();
-  };
 
   return (
     <div className={classes.root}>
@@ -43,9 +36,7 @@ export default function ButtonAppBar() {
               <span>ls</span>
             </code>
           </Typography>
-          <Button color="inherit" onClick={onLogin}>
-            Login
-          </Button>
+          <Login />
         </Toolbar>
       </AppBar>
     </div>
