@@ -32,7 +32,7 @@ export default function ButtonAppBar() {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             <code>
-              <strong>$ myyoutube </strong>
+              <strong>$ youtube </strong>
               <span>ls</span>
             </code>
           </Typography>
