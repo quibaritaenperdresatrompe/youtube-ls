@@ -1,11 +1,7 @@
 import React from 'react';
 
+import Header from './Header';
 function App() {
-  return (
-    <code>
-      <strong>$ myyoutube </strong>
-      <span>ls</span>
-    </code>
-  );
+  return <Header />;
 }
 export default App;
