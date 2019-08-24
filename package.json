@@ -11,7 +11,8 @@
     "build": "react-scripts build",
     "lint": "eslint --cache .",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "commit": "git-cz"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@qbaepst/prettier-config": "^1.1.0",
+    "git-cz": "^3.2.1",
     "husky": ">=1",
     "lint-staged": ">=8",
     "prettier": "^1.18.2",
