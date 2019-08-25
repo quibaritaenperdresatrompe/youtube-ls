@@ -5,9 +5,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import useGoogleAuth from './useGoogleAuth';
 
+import GoogleIcon from './GoogleIcon';
 import Title from './Title';
+import useGoogleAuth from './useGoogleAuth';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -44,8 +45,9 @@ export default function Home() {
             Explore
           </Button>
         ) : (
-          <Button variant="contained" color="secondary" onClick={onLogin}>
-            Login
+          <Button variant="contained" onClick={onLogin}>
+            <GoogleIcon />
+            <Typography variant="button">Sign-In with Google</Typography>
           </Button>
         )}
       </Grid>
