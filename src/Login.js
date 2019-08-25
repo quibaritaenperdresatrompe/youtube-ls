@@ -45,9 +45,9 @@ export default function Home() {
             Explore
           </Button>
         ) : (
-          <Button variant="contained" onClick={onLogin}>
-            <GoogleIcon />
-            <Typography variant="button">Sign-In with Google</Typography>
+          <Button variant="contained" color="secondary" onClick={onLogin}>
+            <GoogleIcon contrast />
+            <Typography variant="button">Log-in with Google</Typography>
           </Button>
         )}
       </Grid>
