@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { googleAuth, initialized } = useGoogleAuth();
+  const { googleAuth, initialized, isAuthorized } = useGoogleAuth();
   const classes = useStyles();
 
   const onLogin = () => {
@@ -35,15 +35,14 @@ export default function ButtonAppBar() {
   };
 
   const onLogout = () => {
-    googleAuth.signOut();
     setAnchorEl(null);
+
+    googleAuth.signOut();
   };
 
   if (!initialized) return null;
 
-  const isSignedIn = googleAuth.isSignedIn.get();
-
-  if (!isSignedIn)
+  if (!isAuthorized)
     return (
       <Button color="inherit" onClick={onLogin}>
         Login

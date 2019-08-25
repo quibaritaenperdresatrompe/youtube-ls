@@ -7,7 +7,7 @@ import GoogleAuthContext from './GoogleAuthContext';
  * @function GoogleAuthProvider Provide OAuth 2.0 authorization to access Google APIs cf. https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps
  */
 export default function GoogleAuthProvider({ apiKey, children, clientId, scope, discoveryDocs }) {
-  const [{ googleAuth, initialized }, setState] = useState({
+  const [{ googleAuth, initialized, isAuthorized }, setState] = useState({
     googleAuth: null,
     initialized: false,
     isAuthorized: false,
