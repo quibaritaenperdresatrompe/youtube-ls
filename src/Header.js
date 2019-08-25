@@ -6,7 +6,9 @@ import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import Login from './Login';
+import Title from './Title';
+import useGoogleAuth from './useGoogleAuth';
+import UserProfile from './UserProfile';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +23,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ButtonAppBar() {
+  const { isAuthorized } = useGoogleAuth();
   const classes = useStyles();
+
+  if (!isAuthorized) return null;
 
   return (
     <div className={classes.root}>
@@ -31,12 +36,9 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <code>
-              <strong>$ youtube </strong>
-              <span>ls</span>
-            </code>
+            <Title />
           </Typography>
-          <Login />
+          <UserProfile />
         </Toolbar>
       </AppBar>
     </div>
