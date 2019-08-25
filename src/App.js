@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 import React, { lazy } from 'react';
 
 import GoogleAuthProvider from './GoogleAuthProvider';
@@ -16,11 +17,15 @@ function App() {
       scope="https://www.googleapis.com/auth/youtube.readonly"
     >
       <BrowserRouter>
-        <Header />
-        <Switch>
-          <SecuredRoute path="/" exact component={Home} />
-          <Route path="/login" component={Login} />
-        </Switch>
+        <Grid container direction="column">
+          <Header />
+          <Grid item xs component="main">
+            <Switch>
+              <SecuredRoute path="/" exact component={Home} />
+              <Route path="/login" component={Login} />
+            </Switch>
+          </Grid>
+        </Grid>
       </BrowserRouter>
     </GoogleAuthProvider>
   );
