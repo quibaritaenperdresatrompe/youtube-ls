@@ -19,48 +19,57 @@ export default function GoogleAuthProvider({ apiKey, children, clientId, scope, 
         'The API is not available, you probably forgot to add the script https://apis.google.com/js/platform.js in the <head>.',
       );
 
-    window.gapi.load('client', () => {
-      window.gapi.client
+    window.gapi.load('auth2', function onLoad() {
+      window.gapi.auth2
         .init({
           apiKey,
           clientId,
           scope,
           discoveryDocs,
         })
-        .then(() => {
-          const GoogleAuth = window.gapi.auth2.getAuthInstance();
+        .then(
+          function onInit() {
+            const GoogleAuth = window.gapi.auth2.getAuthInstance();
 
-          function setSigninStatus() {
-            var user = GoogleAuth.currentUser.get();
-            var isAuthorized = user.hasGrantedScopes(scope);
+            function onUpdateSigningStatus() {
+              var user = GoogleAuth.currentUser.get();
+              var isAuthorized = user.hasGrantedScopes(scope);
+
+              setState(prevState => ({
+                ...prevState,
+                isAuthorized,
+              }));
+            }
+
+            // Listen for sign-in state changes.
+            GoogleAuth.isSignedIn.listen(onUpdateSigningStatus);
+
+            // Handle initial sign-in state. (Determine if user is already signed in.)
+            onUpdateSigningStatus();
 
             setState(prevState => ({
               ...prevState,
-              isAuthorized,
+              googleAuth: GoogleAuth,
+              initialized: true,
             }));
-          }
+          },
+          function onError(error) {
+            console.error('Authentificaton failed.', error);
 
-          // Listen for sign-in state changes.
-          GoogleAuth.isSignedIn.listen(setSigninStatus);
-
-          // Handle initial sign-in state. (Determine if user is already signed in.)
-          setSigninStatus();
-
-          setState(prevState => ({
-            ...prevState,
-            googleAuth: GoogleAuth,
-            initialized: true,
-          }));
-        });
+            setState({ googleAuth: null, initialized: false, isAuthorized: false });
+          },
+        );
     });
 
     return () => {
-      setState({ googleAuth: null, initialized: false });
+      setState({ googleAuth: null, initialized: false, isAuthorized: false });
     };
   }, [apiKey, clientId, scope, discoveryDocs]);
 
   return (
-    <GoogleAuthContext.Provider value={{ googleAuth, initialized }}>{children}</GoogleAuthContext.Provider>
+    <GoogleAuthContext.Provider value={{ googleAuth, initialized, isAuthorized }}>
+      {children}
+    </GoogleAuthContext.Provider>
   );
 }
 
