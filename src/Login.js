@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
       <Grid item>
-        <Typography variant="h1" className={classes.title}>
+        <Typography variant="h4" className={classes.title}>
           <Title />
         </Typography>
       </Grid>
