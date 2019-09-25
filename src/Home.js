@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import MySubscriptions from './MySubscriptions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -13,10 +13,8 @@ export default function Home() {
   const classes = useStyles();
 
   return (
-    <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
-      <Grid item>
-        <Typography>No results.</Typography>
-      </Grid>
-    </Grid>
+    <Container className={classes.container}>
+      <MySubscriptions />
+    </Container>
   );
 }

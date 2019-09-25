@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import GoogleIcon from './GoogleIcon';
 import Title from './Title';
-import useGoogleAuth from './useGoogleAuth';
+import useGoogleApi from './useGoogleApi';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -23,14 +23,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Home() {
-  const { googleAuth, isAuthorized } = useGoogleAuth();
+  const { authorize, isAuthorized } = useGoogleApi();
   const classes = useStyles();
 
   if (isAuthorized) return <Redirect to="/" />;
-
-  const onLogin = () => {
-    googleAuth.signIn();
-  };
 
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
@@ -45,7 +41,7 @@ export default function Home() {
             Explore
           </Button>
         ) : (
-          <Button variant="contained" onClick={onLogin}>
+          <Button variant="contained" onClick={authorize}>
             <GoogleIcon />
             <Typography variant="button">Log-in with Google</Typography>
           </Button>
