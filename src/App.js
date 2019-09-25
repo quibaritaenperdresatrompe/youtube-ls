@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import React, { lazy } from 'react';
 
 import GoogleApiProvider from './GoogleApiProvider';
@@ -18,15 +18,13 @@ function App() {
       scope={'https://www.googleapis.com/auth/youtube.readonly'}
     >
       <BrowserRouter>
-        <Grid container direction="column">
-          <SecuredRoute path="/" component={Header} />
-          <Grid item xs component="main">
-            <Switch>
-              <SecuredRoute path="/" exact component={Home} />
-              <Route path="/login" component={Login} />
-            </Switch>
-          </Grid>
-        </Grid>
+        <SecuredRoute path="/" component={Header} />
+        <Container>
+          <Switch>
+            <SecuredRoute path="/" exact component={Home} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </Container>
       </BrowserRouter>
     </GoogleApiProvider>
   );
