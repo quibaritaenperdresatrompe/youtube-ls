@@ -11,7 +11,7 @@ import Popover from '@material-ui/core/Popover';
 import React, { Fragment, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import useGoogleAuth from './useGoogleAuth';
+import useGoogleApi from './useGoogleApi';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -27,40 +27,33 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserProfile() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { googleAuth, initialized, isAuthorized } = useGoogleAuth();
+  const { authorize, isAuthorized, loading, signOut, user } = useGoogleApi();
   const classes = useStyles();
 
-  const onLogin = () => {
-    googleAuth.signIn();
-  };
+  if (loading) return null;
 
-  const onLogout = () => {
-    setAnchorEl(null);
-
-    googleAuth.signOut();
-  };
-
-  if (!initialized) return null;
-
-  if (!isAuthorized)
+  if (!isAuthorized || !user)
     return (
-      <Button color="inherit" onClick={onLogin}>
+      <Button color="inherit" onClick={authorize}>
         Login
       </Button>
     );
 
-  const currentUser = googleAuth.currentUser.get().getBasicProfile();
-  const userName = currentUser.getName();
-  const userImageUrl = currentUser.getImageUrl();
-  const userEmailAdress = currentUser.getEmail();
-
+  const { name, emailAdress, imageUrl } = user;
+  const avatar = <Avatar alt={name} src={imageUrl} className={classes.avatar} />;
   const open = Boolean(anchorEl);
 
-  function handleMenu(event) {
+  function onLogout() {
+    setAnchorEl(null);
+
+    signOut();
+  }
+
+  function onOpen(event) {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleClose() {
+  function onClose() {
     setAnchorEl(null);
   }
 
@@ -70,10 +63,10 @@ export default function UserProfile() {
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
-        onClick={handleMenu}
+        onClick={onOpen}
         color="inherit"
       >
-        <Avatar alt={userName} src={userImageUrl} className={classes.avatar} />
+        {avatar}
       </Button>
       <Popover
         id="menu-appbar"
@@ -88,22 +81,20 @@ export default function UserProfile() {
           horizontal: 'left',
         }}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         PaperProps={{ square: true }}
         className={classes.menu}
       >
         <div className={classes.userInfo}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Avatar alt={userName} src={userImageUrl} className={classes.avatar} />
-            </Grid>
+            <Grid item>{avatar}</Grid>
             <Grid item>
               <Grid container direction="column">
                 <Grid item>
-                  <Typography className={classes.username}>{userName}</Typography>
+                  <Typography className={classes.username}>{name}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography>{userEmailAdress}</Typography>
+                  <Typography>{emailAdress}</Typography>
                 </Grid>
               </Grid>
             </Grid>
