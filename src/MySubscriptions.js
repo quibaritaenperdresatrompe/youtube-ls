@@ -1,9 +1,28 @@
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 
 import useGoogleApi from './useGoogleApi';
-import SingleLineGridList from './SingleLineGridList';
+
+const useStyles = makeStyles(theme => ({
+  avatar: {
+    width: 60,
+    height: 60,
+  },
+  thumbnail: {
+    padding: theme.spacing(2),
+  },
+  title: {
+    fontWeight: 500,
+    wordBreak: 'break-word',
+  },
+}));
 
 export default function MySubscriptions() {
+  const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
@@ -20,8 +39,6 @@ export default function MySubscriptions() {
       })
       .then(
         response => {
-          console.log(response);
-
           setData(
             response.result.items.map(
               ({
@@ -46,5 +63,37 @@ export default function MySubscriptions() {
 
   if (!isAuthorized || loading || error) return null;
 
-  return <SingleLineGridList tileData={data} />;
+  return (
+    <Grid container>
+      {data.map(({ id, img, title }) => (
+        <Grid
+          key={id}
+          item
+          xs={6}
+          sm={3}
+          md={2}
+          xl={2}
+          container
+          direction="column"
+          alignItems="center"
+          className={classes.thumbnail}
+          spacing={2}
+        >
+          <Grid item>
+            <Avatar src={img} alt={title} className={classes.avatar} />
+          </Grid>
+          <Grid item xs>
+            <Typography align="center" className={classes.title}>
+              {title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button variant="outlined" size="small" color="primary">
+              Labelize
+            </Button>
+          </Grid>
+        </Grid>
+      ))}
+    </Grid>
+  );
 }
