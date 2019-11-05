@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   title: {
-    fontSize: '5rem',
     padding: theme.spacing(4),
   },
   link: {
@@ -29,7 +28,7 @@ export default function Home() {
 
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
-      <Grid item className={classes.title}>
+      <Grid item className={classes.title} component="h1">
         <Title />
       </Grid>
       <Grid item>
