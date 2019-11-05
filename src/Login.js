@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 
 import GoogleIcon from './GoogleIcon';
 import Title from './Title';
@@ -15,6 +13,7 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   title: {
+    fontSize: '5rem',
     padding: theme.spacing(4),
   },
   link: {
@@ -30,22 +29,13 @@ export default function Home() {
 
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
-      <Grid item>
-        <Typography variant="h4" className={classes.title}>
-          <Title />
-        </Typography>
+      <Grid item className={classes.title}>
+        <Title />
       </Grid>
       <Grid item>
-        {isAuthorized ? (
-          <Button variant="contained" color="secondary" component={Link} to="/" className={classes.link}>
-            Explore
-          </Button>
-        ) : (
-          <Button variant="contained" onClick={authorize}>
-            <GoogleIcon />
-            <Typography variant="button">Log-in with Google</Typography>
-          </Button>
-        )}
+        <Button variant="contained" onClick={authorize} startIcon={<GoogleIcon />}>
+          Log-in with Google
+        </Button>
       </Grid>
     </Grid>
   );
