@@ -1,9 +1,8 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import React, { lazy } from 'react';
-
 import GoogleApiProvider from './GoogleApiProvider';
 import Login from './Login';
+import React, { lazy } from 'react';
 import SecuredRoute from './SecuredRoute';
 
 const Header = lazy(() => import('./Header'));
