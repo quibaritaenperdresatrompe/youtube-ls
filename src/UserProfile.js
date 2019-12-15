@@ -27,15 +27,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserProfile() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { authorize, isAuthorized, loading, signOut, user } = useGoogleApi();
+  const { auth, loading, user } = useGoogleApi();
   const classes = useStyles();
 
   if (loading) return null;
 
-  if (!isAuthorized || !user)
+  function logIn() {
+    if (auth) auth.signIn();
+  }
+
+  if (!user.authorized)
     return (
-      <Button color="inherit" onClick={authorize}>
-        Login
+      <Button color="inherit" onClick={logIn}>
+        Log-in
       </Button>
     );
 
@@ -43,10 +47,9 @@ export default function UserProfile() {
   const avatar = <Avatar alt={name} src={imageUrl} className={classes.avatar} />;
   const open = Boolean(anchorEl);
 
-  function onLogout() {
+  function logOut() {
     setAnchorEl(null);
-
-    signOut();
+    if (auth) auth.signOut();
   }
 
   function onOpen(event) {
@@ -102,11 +105,11 @@ export default function UserProfile() {
         </div>
         <Divider />
         <MenuList>
-          <MenuItem onClick={onLogout}>
+          <MenuItem onClick={logOut}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <Typography variant="inherit">Logout</Typography>
+            <Typography variant="inherit">Log-out</Typography>
           </MenuItem>
         </MenuList>
       </Popover>

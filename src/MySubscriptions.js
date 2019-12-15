@@ -26,7 +26,10 @@ export default function MySubscriptions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  const { client, isAuthorized } = useGoogleApi();
+  const {
+    client,
+    user: { authorized },
+  } = useGoogleApi();
 
   useEffect(() => {
     setLoading(true);
@@ -61,7 +64,7 @@ export default function MySubscriptions() {
       );
   }, [client]);
 
-  if (!isAuthorized || loading || error) return null;
+  if (!authorized || loading || error) return null;
 
   return (
     <Grid container>

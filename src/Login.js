@@ -20,11 +20,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Home() {
-  const { authorize, isAuthorized } = useGoogleApi();
+export default function Login() {
+  const {
+    auth,
+    user: { authorized },
+  } = useGoogleApi();
   const classes = useStyles();
 
-  if (isAuthorized) return <Redirect to="/" />;
+  if (authorized) return <Redirect to="/" />;
+
+  function logIn() {
+    if (auth) auth.signIn();
+  }
 
   return (
     <Grid container direction="column" justify="center" alignItems="center" className={classes.container}>
@@ -32,7 +39,7 @@ export default function Home() {
         <Title />
       </Grid>
       <Grid item>
-        <Button variant="contained" onClick={authorize} startIcon={<GoogleIcon />}>
+        <Button variant="contained" onClick={logIn} startIcon={<GoogleIcon />}>
           Log-in with Google
         </Button>
       </Grid>
